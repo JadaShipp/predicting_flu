@@ -32,14 +32,17 @@ def label_encode_columns(train, test):
 
     encoder = LabelEncoder()
    
-    encode_list = ['rent_or_own', 'employment_status', 'marital_status', 'sex']
-    
-             
-    for e in encode_list:
-        train[e] = encoder.fit_transform(train[e])
-        test[e] = encoder.transform(test[e])
+    train['encoded_employment_status'] = encoder.fit_transform(train['employment_status'])
+    train['encoded_rent_or_own'] = encoder.fit_transform(train['rent_or_own'])
+    train['encoded_marital_status'] = encoder.fit_transform(train['marital_status'])
+    train['encoded_sex'] = encoder.fit_transform(train['sex'])
 
-        return train, test
+    test['encoded_employment_status'] = encoder.fit_transform(test['employment_status'])
+    test['encoded_rent_or_own'] = encoder.fit_transform(test['rent_or_own'])
+    test['encoded_marital_status'] = encoder.fit_transform(test['marital_status'])
+    test['encoded_sex'] = encoder.fit_transform(test['sex'])
+    
+    return train, test
 
 def one_hot_encode_columns(train, test):
     encoder = OneHotEncoder()
