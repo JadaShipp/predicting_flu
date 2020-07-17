@@ -57,20 +57,13 @@ def one_hot_encode_columns(train, test):
         return train, test
 
 
-def encode(train, test):
-    # creating instance of one-hot-encoder
-    enc = OneHotEncoder()
-    # passing bridge-types-cat column (label encoded values of bridge_types)
-    enc_df = pd.DataFrame(enc.fit_transform(train[['age_group', 'education', 'race', 'income_poverty']]).toarray())
-    # merge with main df bridge_df on key values
-    train = train.join(enc_df)
-
-    # passing bridge-types-cat column (label encoded values of bridge_types)
-    enc_df2 = pd.DataFrame(enc.fit_transform(test[['age_group', 'education', 'race', 'income_poverty']]).toarray())
-    # merge with main df bridge_df on key values
-    test = test.join(enc_df2)
-    
-    return train, test
+def ohe_columns(train, test):
+    ohe = OneHotEncoder(sparse=False, categories=['age_group', 'education', 'race', 'income_poverty'])
+    train_matrix = ohe.fit_transform(train[['age_group', 'education', 'race', 'income_poverty']])
+    test_matrix = ohe.transform(test[['age_group', 'education', 'race', 'income_poverty']])
+    train = pd.DataFrame(train_matrix, columns=ohe.categories_[0], index=train.index)
+    test = pd.DataFrame(test_matrix, columns=ohe.categories_[0], index=test.index)
+    return ohe, train, test
 
 
 
