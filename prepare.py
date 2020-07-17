@@ -45,6 +45,7 @@ def label_encode_columns(train, test):
     return train, test
 
 def one_hot_encode_columns(train, test):
+    
     encoder = OneHotEncoder()
 
     encode_list = ['age_group', 'education', 'race', 'income_poverty']
@@ -54,5 +55,22 @@ def one_hot_encode_columns(train, test):
         test[e] = encoder.transform(test[e])
 
         return train, test
+
+
+def encode(train, test):
+    # creating instance of one-hot-encoder
+    enc = OneHotEncoder()
+    # passing bridge-types-cat column (label encoded values of bridge_types)
+    enc_df = pd.DataFrame(enc.fit_transform(train[['age_group', 'education', 'race', 'income_poverty']]).toarray())
+    # merge with main df bridge_df on key values
+    train = train.join(enc_df)
+
+    # passing bridge-types-cat column (label encoded values of bridge_types)
+    enc_df2 = pd.DataFrame(enc.fit_transform(test[['age_group', 'education', 'race', 'income_poverty']]).toarray())
+    # merge with main df bridge_df on key values
+    test = test.join(enc_df2)
+    
+    return train, test
+
 
 
