@@ -13,16 +13,16 @@ def percent_nans(df):
     Takes in a dataframe and returns a dataframe with the column name, 
     the number of nans in that column and the percent of nans in that column
     '''
-    x = ['column_name','n_nans', 'percentage_nans']
-    missing_data = pd.DataFrame(columns=x)
+    x = ['column','n_nans', 'percentage_nans']
+    missing_data_df = pd.DataFrame(columns=x)
     columns = df.columns
     for col in columns:
-        acolumn_name = col
-        amissing_data = df[col].isnull().sum()
-        amissing_in_percentage = (df[col].isnull().sum()/df[col].shape[0])*100
+        column_name = col
+        missing_data = df[col].isnull().sum()
+        missing_in_percentage = (df[col].isnull().sum()/df[col].shape[0])*100
         
-        missing_data.loc[len(missing_data)] = [acolumn_name, amissing_data, amissing_in_percentage]
-    return missing_data
+        missing_data_df.loc[len(missing_data_df)] = [column_name, missing_data, missing_in_percentage]
+    return missing_data_df.sort_values(by = 'percentage_nans')
 
 # ---------------------#
 #  Prepare functions   #
@@ -190,3 +190,5 @@ def scale_minmax(train, test, column_list):
     test = test.join(test_scaled)
 
     return train, test
+
+
