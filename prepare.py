@@ -44,26 +44,38 @@ def label_encode_columns(train, test):
     
     return train, test
 
-def one_hot_encode_columns(train, test):
-    
+
+
+def ohe_age_group(train, test):
+    '''
+    Takes in the train and test df and one hot encodes the age_group column
+    then concatenates the new encoded columns onto the origional train and test
+    dataframes. Returns the transformed train and test dataframes.
+    '''
+    # Create encoder object
     encoder = OneHotEncoder()
 
-    encode_list = ['age_group', 'education', 'race', 'income_poverty']
+    # Fit on the age_group column of the train df
+    encoder.fit(train[['age_group']])
 
-    for e in encode_list:
-        train[e] = encoder.fit_transform(train[e])
-        test[e] = encoder.transform(test[e])
+    # nice columns for display
+    cols = ['age_group_' + c for c in encoder.categories_[0]]
 
-        return train, test
+    # Transform the column on train and test and concatenate new df onto train and test dfs
+    m = encoder.transform(train[['age_group']]).todense()
+    train = pd.concat([
+        train,
+        pd.DataFrame(m, columns=cols, index=train.index)
+    ], axis=1)
 
+    m = encoder.transform(test[['age_group']]).todense()
+    test = pd.concat([
+        test,
+        pd.DataFrame(m, columns=cols, index=test.index)
+    ], axis=1)
 
-def ohe_columns(train, test):
-    ohe = OneHotEncoder(sparse=False, categories=['age_group', 'education', 'race', 'income_poverty'])
-    train_matrix = ohe.fit_transform(train[['age_group', 'education', 'race', 'income_poverty']])
-    test_matrix = ohe.transform(test[['age_group', 'education', 'race', 'income_poverty']])
-    train = pd.DataFrame(train_matrix, columns=ohe.categories_[0], index=train.index)
-    test = pd.DataFrame(test_matrix, columns=ohe.categories_[0], index=test.index)
-    return ohe, train, test
+    return train, test
+
 
 
 
