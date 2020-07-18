@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 
 # ---------------------#
 #  Initial Evaluation  #
@@ -27,33 +29,76 @@ def percent_nans(df):
 # ---------------------#
 #  Prepare functions   #
 # ---------------------#
+def create_target_variable_dfs(df):
+    '''
+    Takes in origional df and creates two dfs that contain only one target variable
+    '''
+    #Create two dataframes each with only one of the target variables
+    h1n1_df = df.drop(columns = 'seasonal_vaccine')
+
+    seasonal_df = df.drop(columns = 'h1n1_vaccine')
+
+    return h1n1_df, seasonal_df
+
+def create_train_test_dfs(h1n1_df, seasonal_df):
+    # Use the train test split function from Sklearn and add a random seed for reproducibility
+    # Use Stratify y parameter to ensure the same proportion of the y variable in both train and test dfs
+    h1n1_train, h1n1_test = train_test_split(h1n1_df, random_state=123, 
+    train_size=.80, stratify=h1n1_df.h1n1_vaccine)
+    
+    seasonal_train, seasonal_test = train_test_split(seasonal_df, random_state=123,
+    train_size=.80, stratify=seasonal_df.seasonal_vaccine)
+
+    # Drop these columns as they have too many nans and no good way to fill them
+    h1n1_train = h1n1_train.drop(columns =['employment_industry', 'employment_occupation'] )
+    h1n1_test = h1n1_test.drop(columns =['employment_industry', 'employment_occupation'] )
+
+    seasonal_train = seasonal_train.drop(columns =['employment_industry', 'employment_occupation'] )
+    seasonal_test = seasonal_test.drop(columns =['employment_industry', 'employment_occupation'] )
+
+    return h1n1_train, h1n1_test, seasonal_train, seasonal_test
+
+def fill_null_values(h1n1_train, h1n1_test, seasonal_train, seasonal_test):
+    '''
+    Fills in null values in train and test dfs with most common value
+    '''
+    h1n1_train = h1n1_train.apply(lambda x:x.fillna(x.value_counts().index[0]))
+    h1n1_test = h1n1_test.apply(lambda x:x.fillna(x.value_counts().index[0]))
+
+    seasonal_train = seasonal_train.apply(lambda x:x.fillna(x.value_counts().index[0]))
+    seasonal_test = seasonal_test.apply(lambda x:x.fillna(x.value_counts().index[0]))
+
+    return h1n1_train, h1n1_test, seasonal_train, seasonal_test
 
 
-def fill_null_values(train, test):
-    train = train.apply(lambda x:x.fillna(x.value_counts().index[0]))
-    test = test.apply(lambda x:x.fillna(x.value_counts().index[0]))
-
-    return train, test
 
 # ---------------------#
 #    Label Encoding    #
 # ---------------------#
 
-def label_encode_columns(train, test):
+def label_encode_columns(h1n1_train, h1n1_test, seasonal_train, seasonal_test):
 
     encoder = LabelEncoder()
    
-    train['encoded_employment_status'] = encoder.fit_transform(train['employment_status'])
-    train['encoded_rent_or_own'] = encoder.fit_transform(train['rent_or_own'])
-    train['encoded_marital_status'] = encoder.fit_transform(train['marital_status'])
-    train['encoded_sex'] = encoder.fit_transform(train['sex'])
+    h1n1_train['encoded_employment_status'] = encoder.fit_transform(h1n1_train['employment_status'])
+    h1n1_train['encoded_rent_or_own'] = encoder.fit_transform(h1n1_train['rent_or_own'])
+    h1n1_train['encoded_marital_status'] = encoder.fit_transform(h1n1_train['marital_status'])
+    h1n1_train['encoded_sex'] = encoder.fit_transform(h1n1_train['sex'])
 
-    test['encoded_employment_status'] = encoder.fit_transform(test['employment_status'])
-    test['encoded_rent_or_own'] = encoder.fit_transform(test['rent_or_own'])
-    test['encoded_marital_status'] = encoder.fit_transform(test['marital_status'])
-    test['encoded_sex'] = encoder.fit_transform(test['sex'])
+    h1n1_test['encoded_employment_status'] = encoder.fit_transform(h1n1_test['employment_status'])
+    h1n1_test['encoded_rent_or_own'] = encoder.fit_transform(h1n1_test['rent_or_own'])
+    h1n1_test['encoded_marital_status'] = encoder.fit_transform(h1n1_test['marital_status'])
+    h1n1_test['encoded_sex'] = encoder.fit_transform(h1n1_test['sex'])
+
+    seasonal_train['encoded_rent_or_own'] = encoder.fit_transform(seasonal_train['rent_or_own'])
+    seasonal_train['encoded_marital_status'] = encoder.fit_transform(seasonal_train['marital_status'])
+    seasonal_train['encoded_sex'] = encoder.fit_transform(seasonal_train['sex'])
+
+    seasonal_test['encoded_rent_or_own'] = encoder.fit_transform(seasonal_test['rent_or_own'])
+    seasonal_test['encoded_marital_status'] = encoder.fit_transform(seasonal_test['marital_status'])
+    seasonal_test['encoded_sex'] = encoder.fit_transform(seasonal_test['sex'])
     
-    return train, test
+    return h1n1_train, h1n1_test, seasonal_train, seasonal_test
 
 # ---------------------#
 #   One Hot Encoding   #
@@ -172,11 +217,19 @@ def ohe_income_poverty(train,test):
 
     return train, test
 
+def ohe_columns(train, test):
+    train, test = ohe_age_group(train, test)
+    train, test = ohe_education(train, test)
+    train, test = ohe_income_poverty(train, test)
+    train, test = ohe_race(train, test)
+
+    return train, test
+
 # ---------------------#
 #        Scaling       #
 # ---------------------#
 
-def scale_minmax(train, test, column_list):
+def minmax_scale(train, test, column_list):
     scaler = MinMaxScaler()
     column_list_scaled = [col + '_scaled' for col in column_list]
     train_scaled = pd.DataFrame(scaler.fit_transform(train[column_list]), 
@@ -192,3 +245,15 @@ def scale_minmax(train, test, column_list):
     return train, test
 
 
+def prepare_data(df, column_list):
+    missing_data = percent_nans(df)
+    h1n1_df, seasonal_df = create_target_variable_dfs(df)
+    h1n1_train, h1n1_test, seasonal_train, seasonal_test = create_train_test_dfs(h1n1_df, seasonal_df)
+    h1n1_train, h1n1_test, seasonal_train, seasonal_test = fill_null_values(h1n1_train, h1n1_test, seasonal_train, seasonal_test)
+    h1n1_train, h1n1_test, seasonal_train, seasonal_test = label_encode_columns(h1n1_train, h1n1_test, seasonal_train, seasonal_test)
+    h1n1_train, h1n1_test = ohe_columns(h1n1_train, h1n1_test)
+    seasonal_train, seasonal_test = ohe_columns(seasonal_train, seasonal_test)
+    h1n1_train, h1n1_test = minmax_scale(h1n1_train, h1n1_test, column_list)
+    seasonal_train, seasonal_test = minmax_scale(seasonal_train, seasonal_test, column_list)
+
+    return h1n1_train, h1n1_test, seasonal_train, seasonal_test
