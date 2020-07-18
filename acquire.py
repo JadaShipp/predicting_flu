@@ -1,4 +1,4 @@
-import pandas as import pd
+import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
@@ -34,7 +34,6 @@ def acquire_data():
     feature_df = acquire_training_data()
     target_variable_df = acquire_target_variable_data()
 
-    df = pd.concat([df, target_variable_df], axis = 1)
-    df = df.drop(columns = 'respondent_id')
+    df = pd.concat([feature_df, target_variable_df], axis = 1)
 
     return df
