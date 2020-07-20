@@ -299,4 +299,4 @@ def prepare_data(df, column_list):
     h1n1_train, h1n1_test = minmax_scale(h1n1_train, h1n1_test, column_list)
     seasonal_train, seasonal_test = minmax_scale(seasonal_train, seasonal_test, column_list)
 
-    return h1n1_train, h1n1_test, seasonal_train, seasonal_test
+    return missing_data, h1n1_train, h1n1_test, seasonal_train, seasonal_test
