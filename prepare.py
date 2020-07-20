@@ -274,12 +274,12 @@ def minmax_scale(train, test, scale_column_list):
     train_scaled = pd.DataFrame(scaler.fit_transform(train[scale_column_list]), 
                                 columns = column_list_scaled, 
                                 index = train.index)
-    train = train.join(train_scaled)
+    train = merge.join(train_scaled)
     # Repeat the process for train dataframe
     test_scaled = pd.DataFrame(scaler.transform(test[scale_column_list]), 
                                 columns = column_list_scaled, 
                                 index = test.index)
-    test = test.join(test_scaled)
+    test = test.merge(test_scaled)
 
     return train, test
 
