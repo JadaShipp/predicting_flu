@@ -41,6 +41,9 @@ def create_target_variable_dfs(df):
     return h1n1_df, seasonal_df
 
 def create_train_test_dfs(h1n1_df, seasonal_df):
+    '''
+    Takes in two dataframes, returns two train and two test dataframes
+    '''
     # Use the train test split function from Sklearn and add a random seed for reproducibility
     # Use Stratify y parameter to ensure the same proportion of the y variable in both train and test dfs
     h1n1_train, h1n1_test = train_test_split(h1n1_df, random_state=123, 
@@ -77,9 +80,14 @@ def fill_null_values(h1n1_train, h1n1_test, seasonal_train, seasonal_test):
 # ---------------------#
 
 def label_encode_columns(h1n1_train, h1n1_test, seasonal_train, seasonal_test):
-
+    '''
+    Takes in train and test dataframes and label encodes columns.
+    Returns train and test dataframes with new columns label encoded.
+    '''
+    # Create the encoder object
     encoder = LabelEncoder()
-   
+
+    # Add a new column to the dataframe that is the column you want, label encoded
     h1n1_train['encoded_employment_status'] = encoder.fit_transform(h1n1_train['employment_status'])
     h1n1_train['encoded_rent_or_own'] = encoder.fit_transform(h1n1_train['rent_or_own'])
     h1n1_train['encoded_marital_status'] = encoder.fit_transform(h1n1_train['marital_status'])
@@ -137,6 +145,11 @@ def ohe_age_group(train, test):
 
 
 def ohe_education(train, test):
+    '''
+    Takes in the train and test df and one hot encodes the education column
+    then concatenates the new encoded columns onto the origional train and test
+    dataframes. Returns the transformed train and test dataframes.
+    '''
     # Encode education column
 
     # Create encoder object
@@ -164,6 +177,11 @@ def ohe_education(train, test):
     return train, test
 
 def ohe_race(train, test):
+    '''
+    Takes in the train and test df and one hot encodes the race column
+    then concatenates the new encoded columns onto the origional train and test
+    dataframes. Returns the transformed train and test dataframes.
+    '''
     # Encode race column
 
     # Create encoder object
@@ -191,6 +209,11 @@ def ohe_race(train, test):
     return train, test
 
 def ohe_income_poverty(train,test):
+    '''
+    Takes in the train and test df and one hot encodes the income_poverty column
+    then concatenates the new encoded columns onto the origional train and test
+    dataframes. Returns the transformed train and test dataframes.
+    '''
     # Encode income_poverty column
 
     # Create encoder object
@@ -218,6 +241,10 @@ def ohe_income_poverty(train,test):
     return train, test
 
 def ohe_columns(train, test):
+    '''
+    Takes in the train and test dataframes and adds all one hot encoded columns.
+    Returns transformed dataframes.
+    '''
     train, test = ohe_age_group(train, test)
     train, test = ohe_education(train, test)
     train, test = ohe_income_poverty(train, test)
@@ -229,15 +256,27 @@ def ohe_columns(train, test):
 #        Scaling       #
 # ---------------------#
 
-def minmax_scale(train, test, column_list):
+def minmax_scale(train, test, scale_column_list):
+    '''
+    Takes in train and test dataframes and a list of columns to be scaled.
+    Uses the MinMaxScaler() from SKlearn and creates a dataframe of the scaled columns 
+    with labeled column names.
+    Joins the scaled dataframe to the train and test dataframes.
+    Returns the transformed dataframes.
+    '''
+
+    # Create the scaler object
     scaler = MinMaxScaler()
-    column_list_scaled = [col + '_scaled' for col in column_list]
-    train_scaled = pd.DataFrame(scaler.fit_transform(train[column_list]), 
+    # Create labels for the scaled columns
+    column_list_scaled = [col + '_scaled' for col in scale_column_list]
+    # Apply the scaler to the columns provided to the list and then
+    # pass in the labeled column list.
+    train_scaled = pd.DataFrame(scaler.fit_transform(train[scale_column_list]), 
                                 columns = column_list_scaled, 
                                 index = train.index)
     train = train.join(train_scaled)
-
-    test_scaled = pd.DataFrame(scaler.transform(test[column_list]), 
+    # Repeat the process for train dataframe
+    test_scaled = pd.DataFrame(scaler.transform(test[scale_column_list]), 
                                 columns = column_list_scaled, 
                                 index = test.index)
     test = test.join(test_scaled)
@@ -246,6 +285,10 @@ def minmax_scale(train, test, column_list):
 
 
 def prepare_data(df, column_list):
+    '''
+    Takes in the origional un-prepared dataframe and a list of columns to be scaled.
+    Returns the missing data report and all the train and test dataframes cleaned and prepped.
+    '''
     missing_data = percent_nans(df)
     h1n1_df, seasonal_df = create_target_variable_dfs(df)
     h1n1_train, h1n1_test, seasonal_train, seasonal_test = create_train_test_dfs(h1n1_df, seasonal_df)
