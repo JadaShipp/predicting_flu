@@ -290,6 +290,9 @@ def prepare_data(df, column_list):
     Returns the missing data report and all the train and test dataframes cleaned and prepped.
     '''
     missing_data = percent_nans(df)
+    # Print out missing data so that is shows immediately without 
+    # calling the variable out of the tuple
+    print(missing_data)
     h1n1_df, seasonal_df = create_target_variable_dfs(df)
     h1n1_train, h1n1_test, seasonal_train, seasonal_test = create_train_test_dfs(h1n1_df, seasonal_df)
     h1n1_train, h1n1_test, seasonal_train, seasonal_test = fill_null_values(h1n1_train, h1n1_test, seasonal_train, seasonal_test)
@@ -299,4 +302,4 @@ def prepare_data(df, column_list):
     h1n1_train, h1n1_test = minmax_scale(h1n1_train, h1n1_test, column_list)
     seasonal_train, seasonal_test = minmax_scale(seasonal_train, seasonal_test, column_list)
 
-    return missing_data, h1n1_train, h1n1_test, seasonal_train, seasonal_test
+    return h1n1_train, h1n1_test, seasonal_train, seasonal_test
