@@ -98,10 +98,12 @@ def label_encode_columns(h1n1_train, h1n1_test, seasonal_train, seasonal_test):
     h1n1_test['encoded_marital_status'] = encoder.fit_transform(h1n1_test['marital_status'])
     h1n1_test['encoded_sex'] = encoder.fit_transform(h1n1_test['sex'])
 
+    seasonal_train['encoded_employment_status'] = encoder.fit_transform(seasonal_train['employment_status'])
     seasonal_train['encoded_rent_or_own'] = encoder.fit_transform(seasonal_train['rent_or_own'])
     seasonal_train['encoded_marital_status'] = encoder.fit_transform(seasonal_train['marital_status'])
     seasonal_train['encoded_sex'] = encoder.fit_transform(seasonal_train['sex'])
 
+    seasonal_test['encoded_employment_status'] = encoder.fit_transform(seasonal_test['employment_status'])
     seasonal_test['encoded_rent_or_own'] = encoder.fit_transform(seasonal_test['rent_or_own'])
     seasonal_test['encoded_marital_status'] = encoder.fit_transform(seasonal_test['marital_status'])
     seasonal_test['encoded_sex'] = encoder.fit_transform(seasonal_test['sex'])
