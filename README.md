@@ -20,3 +20,6 @@ Specifically, I will be predicting two probabilities:
 3. Explore
 4. Modeling
 5. Conclusions
+
+## Aquirire
+The data was separated into training features and training labels. Both are needed to create and test models. Both sets can be [downloaded here](https://www.drivendata.org/competitions/66/flu-shot-learning/data/)
