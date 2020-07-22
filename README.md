@@ -11,28 +11,28 @@ Specifically, I will be predicting two probabilities:
 # Executive Summary
 
 # Plan
-1. Aquisition
+### 1. Aquisition
   * Download data into local drive
   * Read in data csv using pandas
-2. Prepare
+### 2. Prepare
   * Chekck data types
   * Get an idea of the null values
   * Impute data where possible
   * Drop columns that are not useful
   * Encode appropriately
   * Scale if needed
-3. Explore
+### 3. Explore
   * Hypothesis testing
   * Vizualize data
   * Compile list of most useful features for modeling
-4. Modeling
+### 4. Modeling
   * Classifications models used:
   > - K Nearest Neighbors
   > - Random Forest
   > - Logistic Regression
 Try each model on the training set, then evaluate on validation set. Tune hyperparameters as needed and finally apply only the best performing model on the test set.
 - __All models will be tuned for overall accuracy as per project specifications__
-5. Conclusions
+### 5. Conclusions
 
 ## Acquire
 The data was separated into training features and training labels. Both are needed to create and test models. Both sets can be [downloaded here](https://www.drivendata.org/competitions/66/flu-shot-learning/data/).
