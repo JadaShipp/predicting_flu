@@ -8,18 +8,34 @@ Specifically, I will be predicting two probabilities:
 - seasonal_vaccine - Whether respondent received seasonal flu vaccine.
 > Both are binary variables: 0 = No; 1 = Yes. Some respondents didn't get either vaccine, others got only one, and some got both. This is formulated as a multilabel (and not multiclass) problem.
 
+# Executive Summary
+
 # Plan
 1. Aquisition
   * Download data into local drive
-2. Prepare
   * Read in data csv using pandas
-  * Chekck data types and null values
-  * Fill in nulls
+2. Prepare
+  * Chekck data types
+  * Get an idea of the null values
+  * Impute data where possible
+  * Drop columns that are not useful
   * Encode appropriately
   * Scale if needed
 3. Explore
+  * Hypothesis testing
+  * Vizualize data
+  * Compile list of most useful features for modeling
 4. Modeling
+  * Classifications models used:
+  > - K Nearest Neighbors
+  > - Random Forest
+  > - Logistic Regression
+Try each model on the training set, then evaluate on validation set. Tune hyperparameters as needed and finally apply only the best performing model on the test set.
+- __All models will be tuned for overall accuracy as per project specifications__
 5. Conclusions
 
-## Aquirire
-The data was separated into training features and training labels. Both are needed to create and test models. Both sets can be [downloaded here](https://www.drivendata.org/competitions/66/flu-shot-learning/data/)
+## Acquire
+The data was separated into training features and training labels. Both are needed to create and test models. Both sets can be [downloaded here](https://www.drivendata.org/competitions/66/flu-shot-learning/data/).
+After dowloading them in .csv format, simply read them in with pandas and then merge them together.
+
+## Prepare
