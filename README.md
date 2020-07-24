@@ -11,9 +11,6 @@ Specifically, I will be predicting two probabilities:
 # Executive Summary
 
 # Plan
-### 1. Aquisition
-  * Download data into local drive
-  * Read in data csv using pandas
 ### 2. Prepare
   * Chekck data types
   * Get an idea of the null values
@@ -30,7 +27,9 @@ Specifically, I will be predicting two probabilities:
   > - K Nearest Neighbors
   > - Random Forest
   > - Logistic Regression
+
 Try each model on the training set, then evaluate on validation set. Tune hyperparameters as needed and finally apply only the best performing model on the test set.
+
 - __All models will be tuned for overall accuracy as per project specifications__
 ### 5. Conclusions
 
@@ -39,3 +38,5 @@ The data was separated into training features and training labels. Both are need
 After dowloading them in .csv format, simply read them in with pandas and then merge them together.
 
 ## Prepare
+
+
