@@ -23,6 +23,16 @@ def opinion_h1n1_status(train):
     ctab = pd.crosstab(h1n1_train.h1n1_vaccine, h1n1_train.opinion_h1n1_risk, normalize=True)
     sns.heatmap(ctab, annot=True, cmap='Purples', fmt='.2%')
 
+
+def distribution_of_h1n1_vaccine_status(train):
+    '''
+    Takes in the train set and returns a barplot depicting
+    number of people vaccinated and not vaccinated.
+    '''
+    #Plot the distribution on of vaccine status
+    h1n1_train.h1n1_vaccine.value_counts().sort_index().plot(kind = "bar",alpha = .5)
+    plt.title("Distirbution of Patients' Vaccine Status")
+
 def chi_square_opinion_status(train):
     observed = pd.crosstab(h1n1_train.h1n1_vaccine, h1n1_train.opinion_h1n1_risk)
     chi2, p, degf, expected = stats.chi2_contingency(observed)
