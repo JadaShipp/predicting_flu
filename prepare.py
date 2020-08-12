@@ -244,6 +244,39 @@ def ohe_income_poverty(train,test):
 
     return train, test
 
+
+def ohe_hhs_geo_region(train,test):
+    '''
+    Takes in the train and test df and one hot encodes the hhs_geo_region column
+    then concatenates the new encoded columns onto the origional train and test
+    dataframes. Returns the transformed train and test dataframes.
+    '''
+    # Encode hhs_geo_region column
+
+    # Create encoder object
+    encoder = OneHotEncoder()
+
+    # Fit on the age_group column of the train df
+    encoder.fit(train[['hhs_geo_region']])
+
+    # nice columns for display
+    cols = ['hhs_geo_region_' + c for c in encoder.categories_[0]]
+
+    # Transform the column on train and test and concatenate new df onto train and test dfs
+    m = encoder.transform(train[['hhs_geo_region']]).todense()
+    train = pd.concat([
+        train,
+        pd.DataFrame(m, columns=cols, index=train.index)
+    ], axis=1)
+
+    m = encoder.transform(test[['hhs_geo_region']]).todense()
+    test = pd.concat([
+        test,
+        pd.DataFrame(m, columns=cols, index=test.index)
+    ], axis=1)
+
+    return train, test
+
 def ohe_columns(train, test):
     '''
     Takes in the train and test dataframes and adds all one hot encoded columns.
@@ -253,6 +286,7 @@ def ohe_columns(train, test):
     train, test = ohe_education(train, test)
     train, test = ohe_income_poverty(train, test)
     train, test = ohe_race(train, test)
+    train, test = ohe_hhs_geo_region(train,test)
 
     return train, test
 
