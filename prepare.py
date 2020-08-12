@@ -176,6 +176,7 @@ def ohe_education(train, test):
         pd.DataFrame(m, columns=cols, index=test.index)
     ], axis=1)
 
+
     return train, test
 
 def ohe_race(train, test):
@@ -208,7 +209,6 @@ def ohe_race(train, test):
         pd.DataFrame(m, columns=cols, index=test.index)
     ], axis=1)
 
-    train = train.rename(columns = {'race_Other or Multiple': 'race_other_or_multiple'}) 
 
     return train, test
 
@@ -293,6 +293,7 @@ def prepare_data(df, column_list):
     Takes in the origional un-prepared dataframe and a list of columns to be scaled.
     Returns the missing data report and all the train and test dataframes cleaned and prepped.
     '''
+
     missing_data = percent_nans(df)
     # Print out missing data so that is shows immediately without 
     # calling the variable out of the tuple
@@ -306,4 +307,16 @@ def prepare_data(df, column_list):
     h1n1_train, h1n1_test = minmax_scale(h1n1_train, h1n1_test, column_list)
     seasonal_train, seasonal_test = minmax_scale(seasonal_train, seasonal_test, column_list)
 
+    # replace all the spaces in the column names with an underscore 
+    h1n1_train.columns = h1n1_train.columns.str.replace(' ', '_')
+    h1n1_test.columns = h1n1_test.columns.str.replace(' ', '_')
+    seasonal_train.columns = seasonal_train.columns.str.replace(' ', '_')
+    seasonal_test.columns = seasonal_test.columns.str.replace(' ', '_')
+
+    # lowercase all the column names
+    h1n1_train.columns = map(str.lower, h1n1_train.columns)
+    h1n1_test.columns = map(str.lower, h1n1_test.columns)
+    seasonal_train.columns = map(str.lower, seasonal_train.columns)
+    seasonal_test.columns = map(str.lower, seasonal_test.columns)
+    
     return h1n1_train, h1n1_test, seasonal_train, seasonal_test
