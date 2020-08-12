@@ -208,6 +208,8 @@ def ohe_race(train, test):
         pd.DataFrame(m, columns=cols, index=test.index)
     ], axis=1)
 
+    train = train.rename(columns = {'race_Other or Multiple': 'race_other_or_multiple'}) 
+
     return train, test
 
 def ohe_income_poverty(train,test):
