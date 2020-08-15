@@ -61,3 +61,27 @@ def create_h1n1_validate_set(train, test):
     return X_train, y_train, X_val, y_val, X_test, y_test
 
 
+def logit_regression_model(x_train, y_train):
+    # create and fit a logistic regression model
+    logit = LogisticRegression(random_state = 123)
+    logit.fit(X_train, y_train)
+
+    # creating the confusion matrix
+    y_pred = logit.predict(X_train)
+    pd.DataFrame(confusion_matrix(y_train, y_pred))
+
+    #code to label matrix
+    labels = ['No Vaccine', 'Vaccine']
+    predicted_labels = [name + " Predicted" for name in labels ]
+
+    conf = pd.DataFrame(confusion_matrix(y_pred, y_train), index=labels, columns=[predicted_labels])
+    conf.index.name = "Actual"
+    
+    return conf
+
+
+
+
+
+
+
