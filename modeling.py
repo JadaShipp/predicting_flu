@@ -60,6 +60,45 @@ def create_h1n1_validate_set(train, test):
 
     return X_train, y_train, X_val, y_val, X_test, y_test
 
+def create_seas_validate_set(train, test):
+    train, validate = train_test_split(train, random_state=123, test_size=.2)
+    X_train = train[['encoded_sex', 'encoded_marital_status', 'encoded_rent_or_own', 
+                          'encoded_employment_status', 'race_black', 'race_hispanic', 
+                          'race_other_or_multiple', 'race_white','education_12_years', 'education_<_12_years',
+                          'education_college_graduate', 'education_some_college', 'age_group_18_-_34_years', 'age_group_35_-_44_years',
+                          'age_group_45_-_54_years', 'age_group_55_-_64_years', 'age_group_65+_years', 
+                          'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
+                          'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
+                          'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+    y_train = train[['seasonal_vaccine']]
+
+
+    X_val = validate[['encoded_sex', 'encoded_marital_status', 'encoded_rent_or_own', 
+                          'encoded_employment_status', 'race_black', 'race_hispanic', 
+                          'race_other_or_multiple', 'race_white','education_12_years', 'education_<_12_years',
+                          'education_college_graduate', 'education_some_college', 'age_group_18_-_34_years', 'age_group_35_-_44_years',
+                          'age_group_45_-_54_years', 'age_group_55_-_64_years', 'age_group_65+_years', 
+                          'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
+                          'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
+                          'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+    y_val = validate[['seasonal_vaccine']]
+
+    X_test = test[['encoded_sex', 'encoded_marital_status', 'encoded_rent_or_own', 
+                          'encoded_employment_status', 'race_black', 'race_hispanic', 
+                          'race_other_or_multiple', 'race_white','education_12_years', 'education_<_12_years',
+                          'education_college_graduate', 'education_some_college', 'age_group_18_-_34_years', 'age_group_35_-_44_years',
+                          'age_group_45_-_54_years', 'age_group_55_-_64_years', 'age_group_65+_years', 
+                          'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
+                          'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
+                          'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+    y_test = test[['seasonal_vaccine']]   
+
+
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
 
 def logit_regression_model(x_train, y_train):
     # create and fit a logistic regression model
