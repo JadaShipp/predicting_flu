@@ -31,7 +31,7 @@ def create_h1n1_validate_set(train, test):
                           'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
                           'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
                           'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
-                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1','behavioral_antiviral_meds']]
     y_train = train[['h1n1_vaccine']]
 
 
@@ -43,7 +43,7 @@ def create_h1n1_validate_set(train, test):
                           'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
                           'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
                           'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
-                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1','behavioral_antiviral_meds']]
     y_val = validate[['h1n1_vaccine']]
 
     X_test = test[['encoded_sex', 'encoded_marital_status', 'encoded_rent_or_own', 
@@ -54,7 +54,7 @@ def create_h1n1_validate_set(train, test):
                           'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
                           'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
                           'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
-                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1','behavioral_antiviral_meds']]
     y_test = test[['h1n1_vaccine']]   
 
 
@@ -70,7 +70,7 @@ def create_seas_validate_set(train, test):
                           'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
                           'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
                           'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
-                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1','behavioral_antiviral_meds']]
     y_train = train[['seasonal_vaccine']]
 
 
@@ -82,7 +82,7 @@ def create_seas_validate_set(train, test):
                           'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
                           'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
                           'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
-                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1','behavioral_antiviral_meds']]
     y_val = validate[['seasonal_vaccine']]
 
     X_test = test[['encoded_sex', 'encoded_marital_status', 'encoded_rent_or_own', 
@@ -93,7 +93,7 @@ def create_seas_validate_set(train, test):
                           'income_poverty_<=_$75,000,_above_poverty','income_poverty_>_$75,000','income_poverty_below_poverty',
                           'hhs_geo_region_atmpeygn', 'hhs_geo_region_bhuqouqj','hhs_geo_region_dqpwygqj', 'hhs_geo_region_fpwskwrf',
                           'hhs_geo_region_kbazzjca', 'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit', 'hhs_geo_region_mlyzmhmf', 
-                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1']]
+                          'hhs_geo_region_oxchjgsf', 'hhs_geo_region_qufhixun', 'opinion_h1n1_risk_scaled', 'doctor_recc_h1n1','behavioral_antiviral_meds']]
     y_test = test[['seasonal_vaccine']]   
 
 
