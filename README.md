@@ -38,5 +38,8 @@ The data was separated into training features and training labels. Both are need
 After dowloading them in .csv format, simply read them in with pandas and then merge them together.
 
 ## Prepare
-
+Initially, the data is evaluated based on the number of nans in each feature.
+The data was thn prepared by:
+- > Creating training and testing sets
+- > Filling null values and dropping columns with too many nans to appropriately fill
 
