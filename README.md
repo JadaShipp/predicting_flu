@@ -42,4 +42,5 @@ Initially, the data is evaluated based on the number of nans in each feature.
 The data was thn prepared by:
 - > Creating training and testing sets
 - > Filling null values and dropping columns with too many nans to appropriately fill
+- > Afterwards I encoded and scaled the data approopriately
 
