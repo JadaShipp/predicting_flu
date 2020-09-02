@@ -48,14 +48,23 @@ def chi_square_opinion_status(train):
     alpha = .05
 
     if p < alpha:
-    print(f'''
+        print(f'''
         Because p ({p:.4f}) is less than alpha ({alpha:.2f}), we reject the null hypothesis.
         This means that the chances of observing the relationship between 
         opinion and vaccine status due to chance are slim. 
         ''')
     else:
-    print(f'''Because p ({p:.4f}) is greater than alpha ({alpha:.2f}), we fail to reject the null hypothesis.
+        print(f'''Because p ({p:.4f}) is greater than alpha ({alpha:.2f}), we fail to reject the null hypothesis.
         This means there is a statistically significant probability of observing the relationship between 
         opinion and vaccine status due to chance. 
         ''')  
 
+def feature_engineering(train):
+    train['graduated_college'] = train['education_college_graduate'] > 0
+    train['age_55_and_up'] = train[['age_group_55_-_64_years', 'age_group_65+_years']].sum(axis=1) > 0
+    train['over_75k'] = train['income_poverty_>_$75,000'] > 0
+    train['relevant_geography'] = train[['hhs_geo_region_bhuqouqj', 'hhs_geo_region_dqpwygqj', 
+                                     'hhs_geo_region_fpwskwrf', 'hhs_geo_region_kbazzjca', 
+                                     'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit']].sum(axis = 1)> 0
+    return train
+                        
