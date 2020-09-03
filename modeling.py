@@ -111,6 +111,10 @@ def create_knn_model(X_test_h1n1, y_test_h1n1, X_test_seas, y_test_seas):
 
     # Print a classification report
     target_names = ["No Vaccine", "Vaccine"]
+    print('-------------------------------------------------------')
+    print()
+    print('H1N1 Vaccine Classification Report')
+    print()
     print(classification_report(y_test_h1n1, y_pred_test, target_names = target_names))
 
 
@@ -132,7 +136,12 @@ def create_knn_model(X_test_h1n1, y_test_h1n1, X_test_seas, y_test_seas):
 
     # Print a classification report
     target_names = ["No Vaccine", "Vaccine"]
+    print('-------------------------------------------------------')
+    print()
+    print('Seasonal Vaccine Classification Report')
+    print()
     print(classification_report(y_test_seas, y_pred_st, target_names = target_names))
+    print('-------------------------------------------------------')
 
     return h1n1_test_confusion_matrix, seasonal_test_confusion_matrix
 
@@ -154,9 +163,6 @@ def create_prediction_df(X_test_h1n1, y_test_h1n1, X_test_seas, y_test_seas):
 
     predictions_df = predictions_df.set_index('Respondent_id')
     return predictions_df
-
-    
-
 
 
 
