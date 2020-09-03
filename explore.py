@@ -34,6 +34,30 @@ def distribution_of_h1n1_vaccine_status(h1n1_train):
     h1n1_train.h1n1_vaccine.value_counts().sort_index().plot(kind = "bar",alpha = .5)
     plt.title("Distirbution of Patients' Vaccine Status")
 
+def sex_race_education_h1n1(h1n1_train):
+    features = ['sex', 'race', 'education']
+
+    _, ax = plt.subplots(nrows=1, ncols=3, figsize=(25,25))
+
+    vaccination_rate = h1n1_train.h1n1_vaccine.mean()
+
+    for i, feature in enumerate(features):
+        sns.barplot(feature, 'h1n1_vaccine', data=h1n1_train, ax=ax[i], alpha=.9)
+        ax[i].set_ylabel('Vaccination Rate')
+        ax[i].axhline(vaccination_rate, ls='--', color='grey')  
+
+def age_income_marital_status(h1n1_train):
+    features = ['age_group', 'income_poverty', 'marital_status']
+
+    _, ax = plt.subplots(nrows=1, ncols=3, figsize=(25,25))
+
+    vaccination_rate = h1n1_train.h1n1_vaccine.mean()
+
+    for i, feature in enumerate(features):
+        sns.barplot(feature, 'h1n1_vaccine', data=h1n1_train, ax=ax[i], alpha=.9)
+        ax[i].set_ylabel('Vaccination Rate')
+        ax[i].axhline(vaccination_rate, ls='--', color='grey')
+
 def chi_square_opinion_status(train):
     observed = pd.crosstab(h1n1_train.h1n1_vaccine, h1n1_train.opinion_h1n1_risk)
     chi2, p, degf, expected = stats.chi2_contingency(observed)
