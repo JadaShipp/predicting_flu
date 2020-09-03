@@ -9,6 +9,7 @@ import prepare
 #Data Visualization
 import seaborn as sns
 import matplotlib.pyplot as plt
+from scipy import stats
 
 #Set figure size and figure size for all plots
 plt.rc("figure", figsize = (14,14))
@@ -17,11 +18,6 @@ plt.rc("font", size=14)
 # Allow all columns to be displayed
 pd.set_option('display.max_columns', None)
 
-
-def opinion_h1n1_status(train):
-    plt.title('Opinion of H1N1 Risk and Vaccine Status')
-    ctab = pd.crosstab(h1n1_train.h1n1_vaccine, h1n1_train.opinion_h1n1_risk, normalize=True)
-    sns.heatmap(ctab, annot=True, cmap='Purples', fmt='.2%')
 
 
 def distribution_of_h1n1_vaccine_status(h1n1_train):
@@ -58,7 +54,20 @@ def age_income_marital_status(h1n1_train):
         ax[i].set_ylabel('Vaccination Rate')
         ax[i].axhline(vaccination_rate, ls='--', color='grey')
 
-def chi_square_opinion_status(train):
+def rent_employment_geo(h1n1_train):
+    features = ['rent_or_own', 'employment_status', 'hhs_geo_region']
+
+    _, ax = plt.subplots(nrows=1, ncols=3, figsize=(25,25))
+
+    vaccination_rate = h1n1_train.h1n1_vaccine.mean()
+
+    for i, feature in enumerate(features):
+        sns.barplot(feature, 'h1n1_vaccine', data=h1n1_train, ax=ax[i], alpha=.9)
+        ax[i].set_ylabel('Vaccination Rate', fontsize = 16.0)
+        ax[i].axhline(vaccination_rate, ls='--', color='grey')
+
+
+def chi_square_opinion_status(h1n1_train):
     observed = pd.crosstab(h1n1_train.h1n1_vaccine, h1n1_train.opinion_h1n1_risk)
     chi2, p, degf, expected = stats.chi2_contingency(observed)
 
@@ -83,6 +92,14 @@ def chi_square_opinion_status(train):
         This means there is a statistically significant probability of observing the relationship between 
         opinion and vaccine status due to chance. 
         ''')  
+
+
+def opinion_h1n1_status(h1n1_train):
+    plt.rc('figure', figsize=(15, 15))
+    plt.rc('font', size=13)
+    plt.title('Opinion of H1N1 Risk and Vaccine Status')
+    ctab = pd.crosstab(h1n1_train.h1n1_vaccine, h1n1_train.opinion_h1n1_risk, normalize=True)
+    sns.heatmap(ctab, annot=True, cmap='Purples', fmt='.2%')
 
 def feature_engineering(train):
     train['graduated_college'] = train['education_college_graduate'] > 0
