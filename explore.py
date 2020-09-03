@@ -26,7 +26,7 @@ def distribution_of_h1n1_vaccine_status(h1n1_train):
     number of people vaccinated and not vaccinated.
     '''
     #Plot the distribution on of vaccine status
-    plt.figure(figsize=(12,12))
+    plt.figure(figsize=(15,15))
     h1n1_train.h1n1_vaccine.value_counts().sort_index().plot(kind = "bar",alpha = .5)
     plt.title("Distirbution of Patients' Vaccine Status")
 
@@ -101,6 +101,57 @@ def opinion_h1n1_status(h1n1_train):
     ctab = pd.crosstab(h1n1_train.h1n1_vaccine, h1n1_train.opinion_h1n1_risk, normalize=True)
     sns.heatmap(ctab, annot=True, cmap='Purples', fmt='.2%')
 
+
+
+def create_continueous_heatmap(h1n1_train):
+    # Subset data to only have opinion
+    continuous_h1n1 = h1n1_train[['h1n1_concern',
+                                'h1n1_knowledge',
+                                'behavioral_antiviral_meds',
+                                'behavioral_avoidance',
+                                'behavioral_face_mask',
+                                'behavioral_wash_hands',
+                                'behavioral_large_gatherings',
+                                'behavioral_outside_home',
+                                'behavioral_touch_face',
+                                'doctor_recc_h1n1',
+                                'chronic_med_condition',
+                                'child_under_6_months',
+                                'health_worker',
+                                'health_insurance',
+                                'opinion_h1n1_vacc_effective',
+                                'opinion_h1n1_risk',
+                                'opinion_h1n1_sick_from_vacc',
+                                'h1n1_vaccine']]
+    plt.matshow(continuous_h1n1.corr())
+    plt.xticks(range(len(continuous_h1n1.columns)), continuous_h1n1.columns)
+    plt.yticks(range(len(continuous_h1n1.columns)), continuous_h1n1.columns)
+    plt.colorbar()
+    plt.figure(figsize = (10.0, 10.0))
+    plt.show()
+    
+def h1n1_doc_recc_correlation(h1n1_train):
+    x = h1n1_train.doctor_recc_h1n1
+    y = h1n1_train.h1n1_vaccine
+
+    corr, p = stats.pearsonr(x, y)
+    corr, p
+
+    alpha = .05
+
+    if p < alpha:
+        print(f'''
+        Because p ({p:.4f}) is less than alpha ({alpha:.2f}), Based on the pearson's r test, 
+        it looks like there's a fairly strong correlation between the h1n1 vaccine status and
+        whether the doctor recommends getting it. 
+        ''')
+    else:
+        print(f'''Because p ({p:.4f}) is greater than alpha ({alpha:.2f}),  Based on the pearson's r test, 
+        it looks like there is no strong correlation between the h1n1 vaccine status and
+        whether the doctor recommends getting it. 
+        ''')
+
+
 def feature_engineering(train):
     train['graduated_college'] = train['education_college_graduate'] > 0
     train['age_55_and_up'] = train[['age_group_55_-_64_years', 'age_group_65+_years']].sum(axis=1) > 0
@@ -109,4 +160,19 @@ def feature_engineering(train):
                                      'hhs_geo_region_fpwskwrf', 'hhs_geo_region_kbazzjca', 
                                      'hhs_geo_region_lrircsnp', 'hhs_geo_region_lzgpxyit']].sum(axis = 1)> 0
     return train
-                        
+
+
+
+# ---------------------#
+#   Seasonal Explore   #
+# ---------------------#
+
+def distribution_of_seasonal_vaccine_status(seasonal_train):
+    '''
+    Takes in the train set and returns a barplot depicting
+    number of people vaccinated and not vaccinated.
+    '''
+   #Plot the distribution on of vaccine status
+    plt.figure(figsize=(15,15))
+    seasonal_train.seasonal_vaccine.value_counts().sort_index().plot(kind = "bar",alpha = .5)
+    plt.title("Distirbution of Patients' Vaccine Status")
