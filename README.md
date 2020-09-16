@@ -31,16 +31,6 @@ Specifically, I will be predicting two probabilities:
 Try each model on the training set, then evaluate on validation set. Tune hyperparameters as needed and finally apply only the best performing model on the test set.
 
 - __All models will be tuned for overall accuracy as per project specifications__
-### 5. Conclusions
 
-## Acquire
-The data was separated into training features and training labels. Both are needed to create and test models. Both sets can be [downloaded here](https://www.drivendata.org/competitions/66/flu-shot-learning/data/).
-After dowloading them in .csv format, simply read them in with pandas and then merge them together.
 
-## Prepare
-Initially, the data is evaluated based on the number of nans in each feature.
-The data was thn prepared by:
-- > Creating training and testing sets
-- > Filling null values and dropping columns with too many nans to appropriately fill
-- > Afterwards I encoded and scaled the data approopriately
 
